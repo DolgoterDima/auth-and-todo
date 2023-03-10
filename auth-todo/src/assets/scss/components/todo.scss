@@ -1,0 +1,8 @@
+.todo{
+  background-color: $white;
+  border-radius: $border-radius;
+  &--active{
+    background-color: $light-gray1;
+
+  }
+}

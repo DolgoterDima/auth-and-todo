@@ -1,0 +1,19 @@
+.user-info{
+  &__title {
+  }
+
+  &__row {
+    padding-bottom: 5px;
+    border-bottom: 1px solid $dark-gray;
+    margin-bottom: 10px;
+  }
+
+  &__legend {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  &__value {
+  }
+}

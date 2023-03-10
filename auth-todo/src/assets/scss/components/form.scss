@@ -1,0 +1,40 @@
+.form {
+  border-radius: $border-radius;
+  &__header {
+    background-color: $light-gray1;
+    padding: 15px 0;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 17px;
+    color: $light-gray3;
+  }
+  &__subtitle {
+    font-size: 15px;
+  }
+  &__label {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+  }
+  &__error{
+    color: $error;
+    position: absolute;
+    bottom: -15px;
+    font-size: 12px;
+  }
+  &__body {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $light-gray2;
+    padding: 15px 25px 30px;
+  }
+
+  &__input {
+   }
+
+  &__button {
+  }
+}

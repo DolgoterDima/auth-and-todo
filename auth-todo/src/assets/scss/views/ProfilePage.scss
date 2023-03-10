@@ -1,0 +1,20 @@
+.profile-page {
+  padding: 50px;
+  &__todos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+
+    @media  (max-width: 800px) {
+      grid-template-columns: 1fr 1fr  ;
+
+    }
+    @media  (max-width: 500px) {
+      grid-template-columns: 1fr    ;
+
+    }
+  }
+  &__user-info {
+
+  }
+}
