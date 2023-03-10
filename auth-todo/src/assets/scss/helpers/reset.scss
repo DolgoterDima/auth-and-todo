@@ -31,19 +31,22 @@ a {
 abbr[title] {
   border-bottom: none;
   text-decoration: underline;
-
 }
-b,strong {
+b,
+strong {
   font-weight: bolder;
 }
-code,kbd,samp {
+code,
+kbd,
+samp {
   font-family: monospace, monospace;
   font-size: 1em;
 }
 small {
   font-size: 80%;
 }
-sub,sup {
+sub,
+sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -58,19 +61,28 @@ sup {
 img {
   border-style: none;
 }
-button,input,optgroup,select,textarea {
+button,
+input,
+optgroup,
+select,
+textarea {
   font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
   margin: 0;
 }
-button,input {
+button,
+input {
   overflow: visible;
 }
-button,select {
+button,
+select {
   text-transform: none;
 }
-button,[type="button"],[type="reset"],[type="submit"] {
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
   -webkit-appearance: button;
 }
 button::-moz-focus-inner,
@@ -103,11 +115,13 @@ progress {
 textarea {
   overflow: auto;
 }
-[type="checkbox"],[type="radio"] {
+[type="checkbox"],
+[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-[type="number"]::-webkit-inner-spin-button,[type="number"]::-webkit-outer-spin-button {
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 [type="search"] {

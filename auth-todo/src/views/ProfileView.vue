@@ -1,6 +1,5 @@
 <template>
   <div class="profile-page page">
-    {{ userData.id }}
     <div class="profile-page__user-info user-info">
       <h1 class="user-info__title">{{ userData.name }}</h1>
       <div class="user-info__row">
@@ -34,26 +33,46 @@
         >
       </div>
     </div>
+    <div class="profile-page__add-todo">
+      <p class="profile-page__subtitle">Add new todo</p>
+      <input
+        type="text"
+        class="profile-page__input input"
+        v-model="newTodoTitle"
+      />
+      <button type="button" @click="addNewTodo" class="button">add todo</button>
+    </div>
 
     <div class="profile-page__sorts-row">
-      <select name="" id="" @change="onStatusChange">
-        <option :value="selectDictionary.All">
-          {{ selectDictionary.All }}
+      <input
+        type="text"
+        v-model="filterData.selectByTitle"
+        class="input"
+        placeholder="Search by title"
+      />
+      <select name="" id="" @change="onStatusChange" class="select">
+        <option :value="selectDictionary.all" class="select__option">
+          {{ selectDictionary.all }}
         </option>
-        <option :value="selectDictionary.Completed">
-          {{ selectDictionary.Completed }}
+        <option :value="selectDictionary.completed" class="select__option">
+          {{ selectDictionary.completed }}
         </option>
-        <option :value="selectDictionary.Uncompleted">
-          {{ selectDictionary.Uncompleted }}
+        <option :value="selectDictionary.uncompleted" class="select__option">
+          {{ selectDictionary.uncompleted }}
         </option>
-        <option :value="selectDictionary.Favorites">
-          {{ selectDictionary.Favorites }}
+        <option :value="selectDictionary.favorites" class="select__option">
+          {{ selectDictionary.favorites }}
         </option>
       </select>
 
-      <select name="" id="" @change="onStatusChange">
-        <option value="">All</option>
-        <option :value="userId" v-for="userId in usersIds" :key="userId">
+      <select name="" id="" @change="onIdChange" class="select">
+        <option value="" class="select__option">All</option>
+        <option
+          :value="userId"
+          v-for="userId in usersIds"
+          :key="userId"
+          class="select__option"
+        >
           {{ userId }}
         </option>
       </select>
@@ -61,7 +80,7 @@
     <div class="profile-page__todos todos">
       <TodoComponent
         class="todos__item"
-        v-for="{ title, completed, favorite, id } in dataTodosToShow"
+        v-for="{ title, completed, favorite, id } in filteredItemsList"
         :key="id"
         :id="id"
         :title="title"
@@ -75,7 +94,12 @@
 
 <script>
 import TodoComponent from "@/components/TodoComponent.vue";
-
+const dictSelected = {
+  all: "all",
+  completed: "completed",
+  uncompleted: "uncompleted",
+  favorites: "favorites",
+};
 export default {
   name: "ProfileView",
   components: { TodoComponent },
@@ -83,60 +107,90 @@ export default {
     return {
       userData: {},
       allTodos: [],
-      selectStatus: "",
-      showTodosByUserId: "",
+      newTodoTitle: "",
 
-      todosDataToShow:[]
+      filterData: {
+        selectStatus: dictSelected.all,
+        selectById: "",
+        selectByTitle: "",
+      },
     };
   },
   computed: {
     selectDictionary() {
-      return {
-        All: "All",
-        Completed: "Completed",
-        Uncompleted: "Uncompleted",
-        Favorites: "Favorites",
-        UserId: this.userData.id,
-        AllUsers: "AllUsers",
-      };
-    },
-    dataTodosToShow() {
-
-      if (this.showTodosByUserId) {
-
-        return  this.arraySelectedStatus.filter(
-            (item) => item.userId === this.showTodosByUserId
-          )
-
-      }
-      return this.arraySelectedStatus;
+      return dictSelected;
     },
 
-
-    arraySelectedStatus() {
-      switch (this.selectStatus) {
-        case this.selectDictionary.Completed:
-          return this.todosDataToShow =this.allTodos.filter((item) => item.completed);
-
-        case this.selectDictionary.Uncompleted:
-          return this.allTodos.filter((item) => !item.completed);
-
-        case this.selectDictionary.Favorites:
-
-          return this.allTodos.filter((item) => item.favorite);
-
-        default:
-          return this.allTodos;
-      }
-    },
     usersIds() {
       return [...new Set(this.allTodos.map((item) => item.userId))];
+    },
+    filteredItemsList() {
+      const checkStatus = this.arraySelectedStatus();
+
+      return this.allTodos.filter((item) => {
+        return (
+          checkStatus?.(item) &&
+          this.filterById(item) &&
+          this.filterByTitle(item)
+        );
+      });
     },
   },
 
   methods: {
-    searchInTodos(){
+    filterDoneItems(item, isReversed = false) {
+      if (isReversed) {
+        return !item.completed;
+      }
+      return !!item.completed;
+    },
 
+    filterFavoriteItems(item, isReversed = false) {
+      if (isReversed) {
+        return !item.favorite;
+      }
+      return !!item.favorite;
+    },
+
+    filterById(item) {
+      if (!this.filterData.selectById) return true;
+
+      return item.userId === this.filterData.selectById;
+    },
+
+    filterByTitle(item) {
+      if (!this.filterData.selectByTitle) return true;
+
+      return item.title.includes(this.filterData.selectByTitle);
+    },
+
+    arraySelectedStatus() {
+      const dict = {
+        completed: (item) => this.filterDoneItems(item),
+        uncompleted: (item) => this.filterDoneItems(item, true),
+        favorite: (item) => this.filterFavoriteItems(item),
+        all: () => true,
+      };
+
+      if (!this.filterData.selectStatus) return dict.all;
+      let result = "";
+
+      switch (this.filterData.selectStatus) {
+        case this.selectDictionary.completed:
+          result = dict.completed;
+          break;
+        case this.selectDictionary.uncompleted:
+          result = dict.uncompleted;
+          break;
+        case this.selectDictionary.favorites:
+          result = dict.favorite;
+          break;
+        default:
+          result = dict.all;
+          break;
+      }
+
+      return result;
     },
     addTodoToFavorite(id) {
       const userFavoritesList = localStorage.getItem("userFavorites")
@@ -156,11 +210,40 @@ export default {
         return item;
       });
     },
+    onIdChange(e) {
+      this.filterData.selectById = +e.target.value;
+    },
+
     onStatusChange(e) {
-      if (!isNaN(e.target.value)) {
-         this.showTodosByUserId = +e.target.value;
-      }
-      this.selectStatus = this.selectDictionary[e.target.value];
+      console.log(
+        "this.filterData.selectStatus",
+        this.selectDictionary[e.target.value],
+        e.target.value
+      );
+      this.filterData.selectStatus = this.selectDictionary[e.target.value];
+    },
+
+    addNewTodo() {
+      fetch("https://jsonplaceholder.typicode.com/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: this.newTodoTitle,
+          completed: false,
+          userId: this.userData.id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.allTodos.unshift({
+            ...data,
+            favorite: false,
+          });
+        })
+        .catch((error) => console.error(error));
     },
     fetchAllTodos() {
       fetch("https://jsonplaceholder.typicode.com/todos")

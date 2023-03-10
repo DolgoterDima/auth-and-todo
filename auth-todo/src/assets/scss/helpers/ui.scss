@@ -1,17 +1,17 @@
 .input {
   border-radius: $border-radius;
-padding: 10px;
+  padding: 10px;
   border: 2px solid transparent;
-  &__error{
+  &__error {
     border: 2px solid $error;
   }
   outline: none;
-  &::placeholder{
-     color: $dark;
-   }
+  &::placeholder {
+    color: $dark;
+  }
 }
 
-.button{
+.button {
   padding: 10px;
   text-align: center;
   color: $white;
@@ -19,82 +19,22 @@ padding: 10px;
   border: none;
   background-color: $green;
   cursor: pointer;
-  transition: background-color .3s;
-  &--disabled{
+  transition: background-color 0.3s;
+  &--disabled {
     cursor: not-allowed;
-    opacity: .7;
+    opacity: 0.7;
   }
-  &:hover{
-    background-color:  darken($green, 10%) ;
+  &:hover {
+    background-color: darken($green, 10%);
   }
 }
 
-
-
-
-
-
-
-
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  display: none;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 34px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-
-  transform: translateX(26px);
-}
-
-/* Опционально, стилизация для отключенного переключателя */
-.switch input:disabled + .slider {
-  background-color: #ccc;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.switch input:disabled + .slider:before {
-  opacity: 0.6;
-  cursor: not-allowed;
+.select {
+  border-radius: $border-radius;
+  padding: 10px;
+  border: 2px solid transparent;
+  text-transform: capitalize;
+  &__option {
+    text-transform: capitalize;
+  }
 }

@@ -1,22 +1,17 @@
 <template>
   <div class="todo" :class="isActive && 'todo--active'">
-    <span>{{ title }}</span>
-    <span>{{ isActive }}</span>
+    <span class="todo__title">{{ title }}</span>
 
-    <button @click="addToFavorite()"  >
-      <font-awesome-icon icon="fa-solid fa-star" v-if="isFavorite"/>
-      <font-awesome-icon icon="fa-regular fa-star"  v-else/>
-
+    <button @click="addToFavorite()" class="todo__button">
+      <font-awesome-icon icon="fa-solid fa-star" v-if="isFavorite" />
+      <font-awesome-icon icon="fa-regular fa-star" v-else />
     </button>
-
-
-   </div>
+  </div>
 </template>
 
 <script>
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-
 
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
@@ -40,21 +35,17 @@ export default {
     },
     id: {
       type: Number,
-
     },
   },
   components: {
     FontAwesomeIcon,
   },
-  computed:{
-
+  computed: {},
+  methods: {
+    addToFavorite() {
+      this.$emit("addToFavorite", this.id);
+    },
   },
-  methods:{
-
-    addToFavorite(){
-      this.$emit('addToFavorite', this.id)
-    }
-  }
 };
 </script>
 

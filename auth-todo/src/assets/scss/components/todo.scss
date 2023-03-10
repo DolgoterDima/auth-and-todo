@@ -1,8 +1,26 @@
-.todo{
+.todo {
   background-color: $white;
   border-radius: $border-radius;
-  &--active{
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  $parent: &;
+  &--active {
     background-color: $light-gray1;
+    #{$parent} {
+      &__title {
+        text-decoration: line-through;
+      }
+    }
+  }
 
+  &__title {
+    display: block;
+  }
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
 }

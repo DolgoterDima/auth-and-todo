@@ -1,6 +1,5 @@
 <template>
   <ValidationObserver tag="div" v-slot="{ invalid, validated }">
-
     <form class="form" @submit.prevent="submitForm(!invalid, validated)">
       <div class="form__header">
         <span class="form__title">description</span>
@@ -78,9 +77,9 @@ export default {
               username === this.form.username && phone === this.form.phone
           ) || [];
 
-         if (this.userData) {
-          localStorage.setItem('user', JSON.stringify(this.userData))
-          this.$router.push('profile')
+        if (this.userData) {
+          localStorage.setItem("user", JSON.stringify(this.userData));
+          this.$router.push("profile");
 
           this.errorMessage = "";
         } else {
